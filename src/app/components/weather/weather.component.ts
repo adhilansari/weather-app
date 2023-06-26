@@ -19,13 +19,14 @@ export class WeatherComponent  {
   forecastWeek!: IForecastList[]
   DateToday = new Date().toDateString();
   userSearchUpdate = new Subject<string>();
+  availableForecast!:number
 
 
 
   constructor(private weatherService: WeatherService, private datePipe: DatePipe) {
 
     this.userSearchUpdate.pipe(
-      debounceTime(400),
+      debounceTime(800),
       distinctUntilChanged()).subscribe((value)=>{
         this.searchValues(value)
       })
@@ -49,6 +50,8 @@ export class WeatherComponent  {
         let b = this.datePipe.transform(this.DateToday, 'yyyy/MM/dd')
         return a == b
       })
+
+      this.availableForecast=this.forecastData.length
 
       this.forecastWeek = val.list.filter((val) => {
         let a = this.datePipe.transform(val.dt_txt, 'hh:mm a');
