@@ -5,7 +5,7 @@
 
     <div class="flex items-center justify-between w-full px-4 py-2 text-white rounded-lg ">
       <p class="text-sm font-medium sm:text-xl sm:font-bold">THE WEATHER<br>FORECASTING</p>
-      <p class="text-sm text-center sm:text-xl ">{{DateToday | date}}</p>
+      <p class="text-sm text-center sm:text-xl ">{{DateToday | date:'hh:mm:ss a'}}</p>
       <a href="https://github.com/adhilansari/weather-app"><i class="text-2xl fa-brands fa-github sm:text-4xl"></i></a>
     </div>
     <div class="relative flex flex-col w-full h-full">
@@ -15,7 +15,7 @@
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <input class="relative w-full h-full pr-2 text-sm text-white bg-transparent outline-none placeholder:text-white"
-          type="search" placeholder="Search something.." [(ngModel)]="searchKey"
+          type="search" placeholder="Search Cities.." [(ngModel)]="searchKey"
           (ngModelChange)="this.userSearchUpdate.next($event)" />
 
         <div class="grid w-12 h-full bg-transparent place-items-center">
@@ -33,14 +33,14 @@
 
 
     <div class="flex flex-col sm:flex-row   bg-black/10 text-white backdrop-filter backdrop-brightness-105 w-full sm:h-[36rem] overflow-auto"
-      *ngIf="weatherData">
-      <div class="flex flex-col w-full gap-4 ">
-        <div class="flex flex-col items-center justify-center w-full gap-1 p-2 ">
-          <p class="text-sm font-semibold tracking-wider sm:font-bold sm:text-lg ">CURRENT WEATHER</p>
+    *ngIf="weatherData">
+    <div class="flex flex-col w-full gap-4 ">
+      <div class="flex flex-col items-center justify-center w-full gap-1 p-2 ">
+        <p class="text-sm font-semibold tracking-wider sm:font-bold sm:text-lg ">CURRENT WEATHER</p>
           <div class="flex flex-wrap items-center justify-between w-full px-2 text-sm sm:text-base">
             <div class="grid flex-col w-1/3 place-items-center ">
               <p class="font-semibold ">{{weatherData.name}},{{weatherData.sys.country}}</p>
-              <p class="">{{DateToday}}</p>
+              <p class="">{{DateToday|date}}</p>
             </div>
             <div class="grid w-1/3 place-items-center">
               <p class="font-semibold">{{weatherData.main.temp | number : '1.0-0'}}°C</p>
@@ -86,8 +86,8 @@
         <div class="flex flex-col items-center justify-center w-full gap-2 p-2 ">
           <p class="text-sm font-semibold tracking-wider sm:font-bold sm:text-lg ">TODAY'S FORECAST</p>
           <p class="text-sm sm:text-bases">{{availableForecast}} available forecasts</p>
-          <div class="flex w-full overflow-x-auto snap-x">
-            <div class="flex items-center justify-center px-2 space-x-2 w-fit scroll-ml-6 snap-start ">
+          <div class="flex items-center justify-center w-full overflow-x-auto snap-x">
+            <div class="flex items-center justify-center px-2 space-x-2 w-fit sm:w-full scroll-ml-6 snap-start ">
               <div
               class="grid w-1/4 grid-flow-row px-4 py-2 leading-8 border rounded-lg shadow-xl border-white/30 place-content-center place-items-center bg-white/10 hover:bg-white/20 backdrop-blur-md"
               *ngFor="let item of forecastData">
@@ -123,7 +123,7 @@
     </div>
     <div class="flex flex-col items-center justify-center text-white font-semibold sm:flex-row h-[calc(100vh-200px)] sm:h-[36rem]  w-full"
       *ngIf="!weatherData">
-      <p class="text-whhite"> Explore current weather data and 6-day forecast of more than 200,000 cities! </p>
+      <p class="p-4 text-whhite"> Explore current weather data and 6-day forecast of more than 200,000 cities! </p>
     </div>
   </div>
 </div>

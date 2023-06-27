@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { IWeather, IGeoData, IForecast, IForecastList } from 'src/app/interfaces/weather.interface';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -9,7 +9,7 @@ import { WeatherService } from 'src/app/services/weather.service';
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss']
 })
-export class WeatherComponent  {
+export class WeatherComponent  implements OnInit{
   geoData!: Observable<IGeoData[]>
   searchKey!: string
   searchObs$!: Observable<any>
@@ -17,10 +17,11 @@ export class WeatherComponent  {
   weatherData!: IWeather
   forecastData!: IForecastList[];
   forecastWeek!: IForecastList[]
-  DateToday = new Date().toDateString();
+  DateToday = new Date();
   userSearchUpdate = new Subject<string>();
   availableForecast!:number
-
+  intervalId:any
+  cityTime:any
 
 
   constructor(private weatherService: WeatherService, private datePipe: DatePipe) {
@@ -30,6 +31,11 @@ export class WeatherComponent  {
       distinctUntilChanged()).subscribe((value)=>{
         this.searchValues(value)
       })
+  }
+  ngOnInit(): void {
+    this.intervalId = setInterval(() => {
+      this.DateToday = new Date();
+    }, 1000);
   }
 
   searchValues(key:string) {
@@ -42,11 +48,14 @@ export class WeatherComponent  {
     this.weatherService.getWeatherData(lat,lon).subscribe((val: IWeather) => {
       this.weatherData = val
       this.searchKey=this.weatherData.name
+
     });
+
+
 
     this.weatherService.getForecastData(lat, lon).subscribe((val: IForecast) => {
       this.forecastData = val.list.filter((val) => {
-        let a = this.datePipe.transform(val.dt_txt, 'yyyy/MM/dd')
+        let a = this.datePipe.transform(val.dt_txt, 'yyyy/MM/dd');
         let b = this.datePipe.transform(this.DateToday, 'yyyy/MM/dd')
         return a == b
       })
@@ -68,12 +77,9 @@ export class WeatherComponent  {
           let lat = position.coords.latitude
           let lon = position.coords.longitude
           this.getResult(lat, lon);
-
           }, function errorCallback(error) {
             alert(error)
         });
-
-
   }
 }
 
