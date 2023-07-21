@@ -106,7 +106,7 @@
           <div class="flex items-center justify-between w-full p-2 border rounded-lg bg-white/10 border-white/30 hover:bg-white/20 backdrop-blur-md">
             <div class="grid w-1/4 leading-8 text-center place-items-center place-content-center">
               <p class="font-semibold">{{item.dt_txt | date:'EEEE'}}</p>
-              <span><i class="pr-2 text-xl fa-solid fa-cloud-showers-heavy"></i>{{item.weather[0].description}}</span>
+              <img class="w-[1.8rem] sm:w-[2.5rem]" src="../../../assets/{{item.weather[0].icon}}.png" alt="">
             </div>
             <div class="grid w-1/4 leading-8 place-items-center place-content-center">
               <span><i class="pr-2 fa-solid fa-temperature-quarter"></i>{{item.main.feels_like| number :
